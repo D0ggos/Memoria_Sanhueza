@@ -1,0 +1,413 @@
+{
+   "swagger":"2.0",
+   "info":{
+      "title":"botiquinAPI",
+      "version":"1.0"
+   },
+   "host":"localhost:5000",
+   "schemes":[
+      "http"
+   ],
+   "basePath":"/",
+   "tags":[
+      {
+         "name":"Students",
+         "description":"Operaciones relacionadas con los estudiantes"
+      },
+      {
+         "name":"Scores",
+         "description":"Operaciones relacionadas con los puntajes"
+      },
+      {
+         "name":"Aules",
+         "description":"Operaciones relacionadas con las aulas"
+      }
+   ],
+
+   "paths":{
+      "/apps/{app_id}/students":{
+         "get":{
+            "tags":[
+               "Students"
+            ],
+            "summary":"Obtener todos los estudiantes de una aplicación",
+            "parameters":[
+               {
+                  "name":"app_id",
+                  "in":"path",
+                  "required":true,
+                  "type":"string"
+               },
+               {
+                  "name":"page",
+                  "in":"query",
+                  "required":false,
+                  "type":"integer",
+                  "description" : "Número de página"
+               },
+               {
+                  "name":"limit",
+                  "in":"query",
+                  "required":false,
+                  "type":"integer",
+                  "description" : "Número de elementos por página"
+               },
+               {
+                  "name":"age",
+                  "in":"query",
+                  "required":false,
+                  "type":"integer",
+                  "description" : "Filtrar por edad"
+               },
+               {
+                  "name":"age[gte]",
+                  "in":"query",
+                  "required":false,
+                  "type":"integer",
+                  "description" : "Filtrar por edad mayor o igual a"
+               },
+               {
+                  "name":"age[lte]",
+                  "in":"query",
+                  "required":false,
+                  "type":"integer",
+                  "description" : "Filtrar por edad menor o igual a"
+               }
+            ],
+            "responses":{
+               "200":{
+                  "description":"Lista de estudiantes"
+               },
+               "404":{
+                  "description":"Aplicación no encontrada"
+               },
+               "403":{
+                  "description":"No tienes permisos para acceder a esta información"
+               }
+            }
+         },
+         "post":{
+            "tags":[
+               "Students"
+            ],
+            "summary":"Crear un nuevo estudiante de una aplicación",
+            "parameters":[
+               {
+                  "name":"app_id",
+                  "in":"path",
+                  "required":true,
+                  "type":"string"
+               },
+               {
+                  "name":"estudiante",
+                  "in":"body",
+                  "required":true,
+                  "schema":{
+                     "$ref":"#/definitions/Student"
+                  }
+               }
+            ],
+            "responses":{
+               "201":{
+                  "description":"Estudiante creado"
+               },
+               "404":{
+                  "description":"Aplicación no encontrada"
+               }
+            }
+         }
+      },
+      "/apps/{app_id}/students/{student_id}/scores":{
+         "get":{
+            "tags":[
+               "Scores"
+            ],
+            "summary":"Obtener puntajes de estudiantes o de un estudiante específico",
+            "parameters":[
+               {
+                  "name":"app_id",
+                  "in":"path",
+                  "required":true,
+                  "type":"string"
+               },
+               {
+                  "name":"student_id",
+                  "in":"path",
+                  "required":false,
+                  "type":"integer"
+               },
+               {
+                  "name":"page",
+                  "in":"query",
+                  "required":false,
+                  "type":"integer",
+                  "description" : "Número de página"
+               },
+               {
+                  "name":"limit",
+                  "in":"query",
+                  "required":false,
+                  "type":"integer",
+                  "description" : "Número de elementos por página"
+               },
+               {
+                  "name":"age",
+                  "in":"query",
+                  "required":false,
+                  "type":"integer",
+                  "description" : "Filtrar por edad"
+               },
+               {
+                  "name":"age[gte]",
+                  "in":"query",
+                  "required":false,
+                  "type":"integer",
+                  "description" : "Filtrar por edad mayor o igual a"
+               },
+               {
+                  "name":"age[lte]",
+                  "in":"query",
+                  "required":false,
+                  "type":"integer",
+                  "description" : "Filtrar por edad menor o igual a"
+               },
+               {
+                  "name":"chapter_id",
+                  "in":"query",
+                  "required":false,
+                  "type":"string",
+                  "description" : "Filtrar por ID de capitulo"
+               },
+               {
+                  "name":"question_id",
+                  "in":"query",
+                  "required":false,
+                  "type":"string",
+                  "description" : "Filtrar por ID de pregunta"
+               },
+               {
+                  "name":"attempt",
+                  "in":"query",
+                  "required":false,
+                  "type":"integer",
+                  "description" : "Filtrar por intentos"
+               },
+               {
+                  "name":"attempt[gte]",
+                  "in":"query",
+                  "required":false,
+                  "type":"integer",
+                  "description" : "Filtrar por intentos mayor o igual a"
+               },
+               {
+                  "name":"attempt[lte]",
+                  "in":"query",
+                  "required":false,
+                  "type":"integer",
+                  "description" : "Filtrar por intentos menor o igual a"
+               },
+               {
+                  "name":"session",
+                  "in":"query",
+                  "required":false,
+                  "type":"integer",
+                  "description" : "Filtrar por sesión"
+               },
+               {
+                  "name":"session[gte]",
+                  "in":"query",
+                  "required":false,
+                  "type":"integer",
+                  "description" : "Filtrar por sesión mayor o igual a"
+               },
+               {
+                  "name":"session[lte]",
+                  "in":"query",
+                  "required":false,
+                  "type":"integer",
+                  "description" : "Filtrar por sesión menor o igual a"
+               }
+            ],
+            "responses":{
+               "200":{
+                  "description":"Lista de puntajes de los estudiantes",
+                  "schema":{
+                     "type":"object",
+                     "properties":{
+                        "results":{
+                           "type":"array",
+                           "items":{
+                              "$ref":"#/definitions/GetScore"
+                           }
+                        }
+                     }
+                  }
+               },
+               "400":{
+                  "description":"Filtro pregunta ingresado sin filtro capitulo"
+               },
+               "403":{
+                  "description":"No tienes permisos para acceder a esta información"},
+               "404":{
+                  "description":"Aplicación, Capitulo o Pregunta no encontrada"
+               },
+               "422":{
+                  "description":"Parámetros inválidos"
+               }
+            }
+         },
+         "post":{
+            "tags":[
+               "Scores"
+            ],
+            "summary":"Crear puntajes de estudiante",
+            "parameters":[
+               {
+                  "name":"app_id",
+                  "in":"query",
+                  "required":true,
+                  "description":"ID de la aplicación móvil",
+                  "type":"string"
+               },
+               {
+                  "name":"aule_id",
+                  "in":"query",
+                  "required":true,
+                  "description":"ID de la aula",
+                  "type":"string"
+               },
+               {
+                  "name":"student_id",
+                  "in":"query",
+                  "required":true,
+                  "description":"ID del estudiante",
+                  "type":"integer"
+               },
+               {
+                  "name":"question_id",
+                  "in":"query",
+                  "required":true,
+                  "description":"ID de la pregunta",
+                  "type":"string"
+               },
+               {
+                  "name":"miliseconds",
+                  "in":"query",
+                  "required":true,
+                  "description":"Milisegundos que tardó el estudiante en responder la pregunta",
+                  "type":"integer"
+               },
+               {
+                  "name":"attempts",
+                  "in":"query",
+                  "required":true,
+                  "description":"Número de intentos que realizó el estudiante para responder la pregunta",
+                  "type":"integer"
+               }
+            ],
+            "responses":{
+               "201":{
+                  "description":"Puntaje creado",
+                  "schema":{
+                     "$ref":"#/definitions/PostScore"
+                  }
+               },
+               "404":{
+                  "description":"Aula o aplicación móvil no encontradas"
+               },
+               "422":{
+                  "description":"Parámetros inválidos"
+               }
+            }
+         }
+      },
+      
+   "definitions":{
+      "Student":{
+         "type":"object",
+         "properties":{
+            "name":{
+               "type":"string"
+            },
+            "age":{
+               "type":"integer"
+            }
+         }
+      },
+      "GetScore":{
+         "type":"object",
+         "properties":{
+            "scores":{
+               "type":"array",
+               "items":{
+                  "type":"object",
+                  "properties":{
+                     "student_id": {
+                        "type":"integer"
+                     },
+                     "chapter_id":{
+                        "type": "string"
+                     },
+                     "question_id":{
+                        "type": "string"
+                     },
+                     "answer":{
+                        "type":"string"
+                     },
+                     "is_correct":{
+                        "type":"boolean"
+                     },
+                     "seconds":{
+                        "type":"float"
+                     },
+                     "attempt":{
+                        "type":"integer"
+                     },
+                     "session":{
+                        "type":"integer"
+                     },
+                     "date":{
+                        "type": "string",
+                        "format": "date-time"
+                     }
+                  }
+               }
+            }
+         }
+      },
+      "PostScore":{
+         "type":"object",
+         "properties":{
+            "chapter":{
+               "type":"object",
+               "properties":{
+                  "id": {
+                     "type":"string"
+                  },
+                  "scores":{
+                     "type":"array",
+                     "items":{
+                        "type":"object",
+                          "properties":{
+                              "answer":{
+                                 "type":"string"
+                              },
+                              "seconds":{
+                                 "type":"float"
+                              },
+                              "is_correct":{
+                                 "type":"boolean"
+                              },
+                              "question_id":{
+                                 "type":"string"
+                              }
+                           }
+                        }
+                     }
+                  }         
+               }
+            }
+         }
+      }
+   }
+}
